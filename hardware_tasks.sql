@@ -38,4 +38,3 @@ DELETE FROM hardware
 WHERE title = 'Очки PS VR 2';
 
 
-
