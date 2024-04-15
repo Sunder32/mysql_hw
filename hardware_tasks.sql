@@ -35,6 +35,7 @@ INSERT INTO hardware (title, price, amount, tag)
 VALUES ('Ноутбук Lenovo 2BXKQ7E9XD', 54500, 1, 'new');
 -- 9
 DELETE FROM hardware
-WHERE title = 'Очки PS VR 2';
+WHERE id IN (SELECT id FROM hardware WHERE title = 'Очки PS VR 2' LIMIT 1);
+
 
 
