@@ -52,6 +52,35 @@ JOIN authors a ON ab.authors_id = a.id
 JOIN shelves s ON b.shelves_id = s.id
 WHERE s.title LIKE '%верхняя%' OR s.title LIKE '%нижняя%';
 
+-- 8
+
+
+SELECT @book_id := id FROM books WHERE title = 'Божественная комедия';
+SELECT @friend_id := id FROM friends WHERE name = 'Иван Иваныч';
+UPDATE books SET friends_id = @friend_id WHERE id = @book_id;
+
+-- 9
+
+INSERT INTO books (title, year, shelves_id)
+VALUES ('Краткие ответы на большие вопросы', 2020, (SELECT id FROM shelves WHERE title = 'кабинет'));
+
+INSERT INTO authors (name)
+SELECT 'Стивен Хокинг'
+WHERE NOT EXISTS (SELECT * FROM authors WHERE name = 'Стивен Хокинг');
+
+
+SET @author_id = (
+  SELECT id FROM authors WHERE name = 'Стивен Хокинг'
+);
+
+
+INSERT INTO authors_books (books_id, authors_id)
+VALUES ((SELECT id FROM books WHERE title = 'Краткие ответы на большие вопросы'), @author_id);
+
+
+
+
+
 
 
 
