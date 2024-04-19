@@ -7,16 +7,19 @@ ORDER BY book_count DESC
 LIMIT 1;
 
 -- 2
-SELECT title, year
-FROM books
-WHERE year IS NOT NULL
-ORDER BY year
+SELECT b.title, b.year 
+FROM books b
+WHERE b.year IS NOT NULL
+ORDER BY b.year ASC
 LIMIT 5;
+
 
 -- 3
 SELECT COUNT(*)
-FROM books
-WHERE shelves_id = (SELECT id FROM shelves WHERE title = 'полка в кабинете');
+FROM books b
+JOIN shelves s ON b.shelves_id = s.id
+WHERE s.title = 'Полка в кабинете';
+
 
 -- 4
 
@@ -55,9 +58,10 @@ WHERE s.title LIKE '%верхняя%' OR s.title LIKE '%нижняя%';
 -- 8
 
 
-SELECT @book_id := id FROM books WHERE title = 'Божественная комедия';
-SELECT @friend_id := id FROM friends WHERE name = 'Иван Иваныч';
-UPDATE books SET friends_id = @friend_id WHERE id = @book_id;
+UPDATE books
+SET friends_id = (SELECT id FROM friends WHERE name = 'Иван Иванов')
+WHERE title = 'Божественная комедия' AND authors_id = (SELECT id FROM authors WHERE name = 'Данте Алигьери');
+
 
 -- 9
 
