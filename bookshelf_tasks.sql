@@ -66,10 +66,18 @@ WHERE s.title LIKE '%верхняя%' OR s.title LIKE '%нижняя%';
 -- 8
 
 UPDATE books
-SET friends_id = (SELECT id FROM friends WHERE name = 'Иван Иванов')
-WHERE title = 'Божественная комедия' AND authors_id = (SELECT id FROM authors WHERE name = 'Данте Алигьери');
-
-
+SET friends_id = (
+    SELECT id
+    FROM friends
+    WHERE name = 'Иванов Иван'
+)
+WHERE title = 'Божественная комедия' AND books.id = (
+    SELECT books_id
+    FROM authors_books
+    JOIN authors
+    ON authors_books.authors_id = authors.id
+    WHERE authors.name = 'Данте Алигьери'
+);
 -- 9
 
 INSERT INTO books (title, year, shelves_id)
